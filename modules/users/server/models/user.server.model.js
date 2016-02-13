@@ -26,8 +26,11 @@ var validateLocalStrategyPassword = function (password) {
  * A Validation function for local strategy email
  */
 var validateLocalStrategyEmail = function (email) {
-  return ((this.provider !== 'local' && !this.updated) || validator.isEmail(email));
+  var domain = email.split('@')[1];
+  return ((this.provider !== 'local' && !this.updated) || (validator.isEmail(email) && validator.equals('drexel.edu', domain)));
 };
+
+
 
 /**
  * User Schema
@@ -54,7 +57,7 @@ var UserSchema = new Schema({
     trim: true,
     unique: true,
     default: '',
-    validate: [validateLocalStrategyEmail, 'Please fill a valid email address']
+    validate: [validateLocalStrategyEmail, 'Please fill in a valid email address']
   },
   username: {
     type: String,
