@@ -30,7 +30,7 @@ exports.forgotUsername = function(req, res) {
   user.findOne({email: user.email}, function(err, obj) {
     if (err) {
       return res.status(400).send({
-      message: errorHandler.getErrorMessage(err)
+        message: errorHandler.getErrorMessage(err)
     });
     } else {
       var username = obj.username;
@@ -43,7 +43,7 @@ exports.forgotUsername = function(req, res) {
         "TextBody": username
       });
     }
-  };
+  });
 };
 
 /**
