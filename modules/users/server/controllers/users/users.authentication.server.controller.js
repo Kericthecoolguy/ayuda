@@ -29,6 +29,14 @@ exports.forgotUsername = function(req, res) {
 
   res.json(user);
 
+  client.sendEmail({
+    "From": "donotreply@ayuda.com",
+    "To": user.email,
+    "Subject": "Username Recovery",
+    "TextBody": 'username would go here!'
+  });
+
+  // BELOW HAS THE ERROR!
   /*user.findOne({email: user.email}, function(err, obj) {
     if (err) {
       return res.status(400).send({
