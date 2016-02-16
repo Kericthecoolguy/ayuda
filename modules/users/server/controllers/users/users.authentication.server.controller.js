@@ -27,7 +27,9 @@ exports.forgotUsername = function(req, res) {
   var user = new User(req.body);
   var message = null;
 
-  user.findOne({email: user.email}, function(err, obj) {
+  res.json(user);
+
+  /*user.findOne({email: user.email}, function(err, obj) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
@@ -43,7 +45,7 @@ exports.forgotUsername = function(req, res) {
         "TextBody": username
       });
     }
-  });
+  });*/
 };
 
 /**

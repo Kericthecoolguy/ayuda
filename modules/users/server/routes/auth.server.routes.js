@@ -19,6 +19,9 @@ module.exports = function (app) {
   app.route('/api/auth/signin').post(users.signin);
   app.route('/api/auth/signout').get(users.signout);
 
+  // Set up forgotUsername api
+  app.route('/api/auth/forgotUsername').post(users.forgotUsername);
+
   // Setting the facebook oauth routes
   app.route('/api/auth/facebook').get(users.oauthCall('facebook', {
     scope: ['email']
