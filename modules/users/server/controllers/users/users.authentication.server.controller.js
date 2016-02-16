@@ -27,7 +27,7 @@ exports.forgotUsername = function(req, res) {
   var user = new User(req.body);
   var message = null;
 
-  res.json(user);
+  //res.json(user);
 
   client.sendEmail({
     "From": "donotreply@ayuda.com",
