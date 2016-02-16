@@ -17,7 +17,7 @@ var noReturnUrls = [
 ];
 
 // Postmark client
-var client = new postmark.Client("38979fc3-da62-41c7-964c-b5e2c1d96fb8");
+var client = new postmark.Client('38979fc3-da62-41c7-964c-b5e2c1d96fb8');
 
 /**
  * forgotUsername
@@ -29,20 +29,21 @@ exports.forgotUsername = function(req, res) {
 
   //res.json(user);
 
-  client.sendEmail({
-    "From": "donotreply@ayuda.com",
-    "To": user.email,
-    "Subject": "Username Recovery",
-    "TextBody": 'username would go here!'
+  /*client.sendEmail({
+    'From': 'donotreply@ayuda.com',
+    'To': user.email,
+    'Subject': 'Username Recovery',
+    'TextBody': 'username would go here!'
   }), function(error, success) {
     if (error) {
-      console.error("Unable to send via postmark: " + error.message);
+      console.error('Unable to send via postmark: ' + error.message);
       return res.status(400).send({
-        message = error.message;
-        message: error.message;
+        message: error.message
       });
+    } else {
+      console.info('Sent to postmark for delivery');
     }
-  }
+  };
 
   // BELOW HAS THE ERROR!
   /*user.findOne({email: user.email}, function(err, obj) {
