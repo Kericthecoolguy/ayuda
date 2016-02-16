@@ -70,6 +70,11 @@ var UserSchema = new Schema({
     default: '',
     validate: [validateLocalStrategyPassword, 'Password should be longer']
   },
+  isMentor: {
+    type: Boolean,
+    default: false
+  },
+  interests: [{ type: String, trim: true}],
   salt: {
     type: String
   },
