@@ -21,10 +21,33 @@
         <div class="text-center forgot-password">
           <a data-ui-sref="password.forgot">Forgot your password?</a>
         </div>
+      </fieldset>
+    </form>
+        <!-- Forgot Username Link -->
+        <div class="text-center">
+          <a href="#" ng-click="showBox=true">Forgot your username?</a>
+        </div>
+        <!-- Forgot Username Box -->
+        <div ng-show="showBox">
+          <form data-ng-submit="forgotUsername()" class="signin form-horizontal" autocomplete="off">
+            <fieldset>
+              <div class="form-group">
+                <label for="forgotUsername">Drexel email</label>
+                <input ng-show="showBox" type="text" id="forgotUsername" name="forgotUsername" class="form-control" data-ng-model="credentials.email" placeholder="Email">
+              </div>
+              <div class="text-center form-group">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+        <!-- Diplay alerts -->
+        <br>
         <alert type="danger" data-ng-show="error" class="text-center text-danger">
           <span data-ng-bind="error"></span>
         </alert>
-      </fieldset>
-    </form>
+        <alert type="success" data-ng-show="success" class="text-center text-success">
+          <span data-ng-bind="success"></span>
+        </alert>
   </div>
 </div>

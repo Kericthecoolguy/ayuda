@@ -30,8 +30,6 @@ var validateLocalStrategyEmail = function (email) {
   return ((this.provider !== 'local' && !this.updated) || (validator.isEmail(email) && validator.equals('drexel.edu', domain)));
 };
 
-
-
 /**
  * User Schema
  */
