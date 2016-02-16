@@ -34,7 +34,15 @@ exports.forgotUsername = function(req, res) {
     "To": user.email,
     "Subject": "Username Recovery",
     "TextBody": 'username would go here!'
-  });
+  }), function(error, success) {
+    if (error) {
+      console.error("Unable to send via postmark: " + error.message);
+      return res.status(400).send({
+        message = error.message;
+        message: error.message;
+      });
+    }
+  }
 
   // BELOW HAS THE ERROR!
   /*user.findOne({email: user.email}, function(err, obj) {
