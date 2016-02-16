@@ -7,6 +7,7 @@ var path = require('path'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   mongoose = require('mongoose'),
   passport = require('passport'),
+  postmark = require('postmark'),
   User = mongoose.model('User');
 
 // URLs for which user can't be redirected on signin
@@ -14,6 +15,36 @@ var noReturnUrls = [
 	'/authentication/signin',
 	'/authentication/signup'
 ];
+
+// Postmark client
+var client = new postmark.Client("38979fc3-da62-41c7-964c-b5e2c1d96fb8");
+
+/**
+ * forgotUsername
+ */
+exports.forgotUsername = function(req, res) {
+  // Init Variables
+  var user = new User(req.body);
+  var message = null;
+
+  user.findOne({email: user.email}, function(err, obj) {
+    if (err) {
+      return res.status(400).send({
+      message: errorHandler.getErrorMessage(err)
+    });
+    } else {
+      var username = obj.username;
+      var email = obj.email;
+
+      client.sendEmail({
+        "From": "donotreply@ayuda.com",
+        "To": email,
+        "Subject": "Username Recovery",
+        "TextBody": username
+      });
+    }
+  };
+};
 
 /**
  * Signup
@@ -82,6 +113,8 @@ exports.signout = function (req, res) {
   req.logout();
   res.redirect('/');
 };
+
+
 
 /**
  * OAuth provider call

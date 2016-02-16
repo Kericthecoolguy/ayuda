@@ -37,11 +37,15 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
     };
 
     $scope.forgotUsername = function() {
-      $scope.success = "Check email for username";
-      /*$http.post('/api/auth/forgotUsername', $scope.credentials).sucess(function (response) {
+      $http.post('/api/auth/forgotUsername', $scope.credentials).sucess(function (response) {
         // If successful prompt user
         $scope.success = "Check email for username"
-      });*/
+
+        // If unsuccessful report error
+        $scope.error = response.message;
+
+        // 
+      });
 
     };
 
