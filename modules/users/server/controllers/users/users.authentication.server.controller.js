@@ -4,10 +4,13 @@
  * Module dependencies.
  */
 var path = require('path'),
+  config = require(path.resolve('./config/config')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   mongoose = require('mongoose'),
   passport = require('passport'),
-  postmark = require('postmark'),
+  //postmark = require('postmark'),
+  nodemailer = require('nodemailer'),
+  async = require('async'),
   User = mongoose.model('User');
 
 // URLs for which user can't be redirected on signin
@@ -17,15 +20,125 @@ var noReturnUrls = [
 ];
 
 // Postmark client
-var client = new postmark.Client('38979fc3-da62-41c7-964c-b5e2c1d96fb8');
+//var client = new postmark.Client('38979fc3-da62-41c7-964c-b5e2c1d96fb8');
+// Nodemailer
+var smtpTransport = nodemailer.createTransport(config.smtp);
+
+
 
 /**
  * forgotUsername
  */
+
 exports.forgotUsername = function(req, res) {
-  // Init Variables
-  var user = new User(req.body);
-  var message = null;
+
+  if(req.body.email) {
+    User.findOne({
+      email: req.body.email
+    }, function (err, user) {
+      if(!user) {
+        return res.status(400).send({
+          message: 'No account with that email has been found'
+        });
+      } else {
+        var mailOptions = {
+          from: 'drexelayuda <drexelayuda@gmail.com>',
+          to: user.email,
+          subject: 'Username recovery',
+          text: 'Hi ' + user.displayName + ', ' +
+          'your username for your Ayuda account is: ' + user.username + '.'
+        };
+
+        smtpTransport.sendMail(mailOptions, function(error, info) {
+          if(error){
+            return res.status(400).send({
+              message: 'Error sending email'
+            });
+          }
+          res.send({
+            message: 'Username sent to email'
+          });
+        });
+
+
+
+
+      }
+    });
+  } else {
+    return res.status(400).send({
+      message: 'Please enter a valid drexel email address'
+    });
+  }
+
+
+};
+
+  /*var mailOptions = {
+    from: 'drexelayuda <drexelayuda@gmail.com>',
+    to: user.username,
+    subject: 'Username recovery',
+    text: 'This is where username will go'
+  };
+};*/
+
+/*exports.forgotUsername = function(req, res, next) {
+  async.waterfall([
+    function (done) {
+      if (req.body.email) {
+        User.findOne({
+          email: req.body.email
+        }, function (err, user) {
+          if (!user) {
+            return res.status(400).send({
+              message: 'No account with that email has been found'
+            });
+          }
+        });
+      } else {
+        return res.status(400).send({
+          message: 'Username field must not be blank'
+        });
+      }
+    },
+    function(user, done){
+      res.render(path.resolve('modules/users/server/templates/forgotUsername.html'), {
+        name: user.displayName,
+        username: user.username,
+        appName: config.app.title,
+        url: 'http://drexel-ayuda.herokuapp.com/authentication/signin'
+      }, function(err, emailHTML) {
+        done(err, emailHTML, user);
+      });
+    },
+    // If valid email, send username email using service
+    function(emailHTML, user, done) {
+      var mailOptions = {
+        to: user.email,
+        from: config.mailer.from,
+        subject: 'Password Reset',
+        html: emailHTML
+      };
+      smtpTransport.sendMail(mailOptions, function(err) {
+        if (!err) {
+          res.send({
+            message: 'An email has been sent to the provided email with your username.'
+          });
+        } else {
+          return res.status(400).send({
+            message: 'Failure sending email'
+          });
+        }
+
+        done(err);
+      });
+    }
+  ], function(err) {
+    if (err) {
+      return next(err);
+    }
+    });
+};*/
 
   //res.json(user);
 
@@ -63,7 +176,6 @@ exports.forgotUsername = function(req, res) {
       });
     }
   });*/
-};
 
 /**
  * Signup
