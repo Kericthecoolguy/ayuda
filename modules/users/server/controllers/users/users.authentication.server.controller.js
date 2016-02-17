@@ -22,7 +22,7 @@ var noReturnUrls = [
 // Postmark client
 //var client = new postmark.Client('38979fc3-da62-41c7-964c-b5e2c1d96fb8');
 // Nodemailer
-var smtpTransport = nodemailer.createTransport(config.smtp);
+var smtpTransport = nodemailer.createTransport('smtps://drexelayuda%40gmail.com:Ayuda2016@smtp.gmail.com');
 
 
 

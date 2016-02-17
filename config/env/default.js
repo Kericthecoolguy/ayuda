@@ -14,5 +14,5 @@ module.exports = {
   logo: 'modules/core/img/brand/logo.png',
   favicon: 'modules/core/img/brand/favicon.ico',
   //smtp: 'smtps://drexelayuda%40gmail.com:Ayuda2016@smtp.gmail.com'
-  smtp: 'smtps://drexelayuda:Ayuda2016@smtp.gmail.com'
+  //smtp: 'smtps://drexelayuda:Ayuda2016@smtp.gmail.com'
 };
