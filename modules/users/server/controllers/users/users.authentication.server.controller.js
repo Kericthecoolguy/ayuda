@@ -62,15 +62,12 @@ exports.forgotUsername = function(req, res) {
             return res.status(400).send({
               message: 'Error sending email'
             });
-          }
-          res.send({
-            message: 'Username sent to email'
+          } else {
+            res.send({
+              message: 'Username sent to email'
           });
+          }
         });
-
-
-
-
       }
     });
   } else {

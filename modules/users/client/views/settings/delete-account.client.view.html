@@ -1,0 +1,8 @@
+<section class="row" data-ng-controller="DeleteAccountController">
+	<div class="col-xs-offset-1 col-xs-10 col-md-offset-4 col-md-4">
+		<p> Delete your account here!</p>
+		<a class="btn btn-primary" data-ng-click="remove();" ng-if="user._id !== authentication.user._id">
+			<i class="glyphicon glyphicon-trash"></i>
+		</a>
+	</div>
+</section>

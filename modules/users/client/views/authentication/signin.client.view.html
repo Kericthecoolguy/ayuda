@@ -44,10 +44,10 @@
         <!-- Diplay alerts -->
         <br>
         <alert type="danger" data-ng-show="error" class="text-center text-danger">
-          <span data-ng-bind="error"></span>
+          <span data-ng-bind="error">{{ error }}</span>
         </alert>
         <alert type="success" data-ng-show="success" class="text-center text-success">
-          <span data-ng-bind="success"></span>
+          <span data-ng-bind="success">{{ success }}</span>
         </alert>
   </div>
 </div>

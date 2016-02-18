@@ -48,6 +48,24 @@ exports.update = function (req, res) {
   }
 };
 
+
+/**
+ * Delete a user
+ */
+exports.delete = function (req, res) {
+  var user = req.model;
+
+  user.remove(function (err) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+
+    res.json(user);
+  });
+};
+
 /**
  * Update profile picture
  */
