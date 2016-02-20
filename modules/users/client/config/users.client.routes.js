@@ -31,7 +31,7 @@ angular.module('users').config(['$stateProvider',
       })
       .state('settings.delete', {
         url: '/delete',
-        templateUrl: 'modules/users/view/settings/delete-account.client.view.html'
+        templateUrl: 'modules/users/views/settings/delete-account.client.view.html'
       })
       .state('authentication', {
         abstract: true,

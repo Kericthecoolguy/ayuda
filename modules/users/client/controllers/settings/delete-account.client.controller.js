@@ -1,8 +1,10 @@
 'use strict';
 
-angular.module('users').controller('EditProfileController', ['$scope', '$state', '$http', '$location', 'Users', 'Authentication',
-  function ($scope, $state, $http, $location, Users, Authentication) {
-    $scope.user = Authentication.user;
+angular.module('users').controller('DeleteAccountController', ['$scope', '$state', '$http', '$location', 'userResolve', 'Users', 'Authentication',
+  function ($scope, $state, $http, $location, Users, Authentication, userResolve) {
+    //$scope.user = Authentication.user;
+    //$scope.authentication = Authentication;
+    //$scope.user = userResolve;
 
     $scope.remove = function (user) {
       if (confirm('Are you sure you want to delete your account?')) {
