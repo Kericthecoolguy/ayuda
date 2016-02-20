@@ -10,8 +10,10 @@
     "url": "https://github.com/kericthecoolguy/ayuda.git"
   },
   "engines": {
-    "node": ">=0.10.28",
-    "npm": ">=1.4.28"
+    //"node": ">=0.10.28",
+    //"npm": ">=1.4.28"
+    "node": ">=4.2.1",
+    "npm": ">=3.5.3"
   },
   "scripts": {
     "start": "grunt",
