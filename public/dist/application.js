@@ -81,6 +81,11 @@ angular.element(document).ready(function () {
 'use strict';
 
 // Use Applicaion configuration module to register a new module
+ApplicationConfiguration.registerModule('articles');
+
+'use strict';
+
+// Use Applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('core');
 ApplicationConfiguration.registerModule('core.admin', ['core']);
 ApplicationConfiguration.registerModule('core.admin.routes', ['ui.router']);
@@ -91,6 +96,150 @@ ApplicationConfiguration.registerModule('core.admin.routes', ['ui.router']);
 ApplicationConfiguration.registerModule('users', ['core']);
 ApplicationConfiguration.registerModule('users.admin', ['core.admin']);
 ApplicationConfiguration.registerModule('users.admin.routes', ['core.admin.routes']);
+
+'use strict';
+
+// Configuring the Articles module
+angular.module('articles').run(['Menus',
+  function (Menus) {
+    // Add the articles dropdown item
+    Menus.addMenuItem('topbar', {
+      title: 'Articles',
+      state: 'articles',
+      type: 'dropdown'
+    });
+
+    // Add the dropdown list item
+    Menus.addSubMenuItem('topbar', 'articles', {
+      title: 'List Articles',
+      state: 'articles.list'
+    });
+
+    // Add the dropdown create item
+    Menus.addSubMenuItem('topbar', 'articles', {
+      title: 'Create Articles',
+      state: 'articles.create'
+    });
+  }
+]);
+
+'use strict';
+
+// Setting up route
+angular.module('articles').config(['$stateProvider',
+  function ($stateProvider) {
+    // Articles state routing
+    $stateProvider
+      .state('articles', {
+        abstract: true,
+        url: '/articles',
+        template: '<ui-view/>',
+        data: {
+          roles: ['user', 'admin']
+        }
+      })
+      .state('articles.list', {
+        url: '',
+        templateUrl: 'modules/articles/views/list-articles.client.view.html'
+      })
+      .state('articles.create', {
+        url: '/create',
+        templateUrl: 'modules/articles/views/create-article.client.view.html'
+      })
+      .state('articles.view', {
+        url: '/:articleId',
+        templateUrl: 'modules/articles/views/view-article.client.view.html'
+      })
+      .state('articles.edit', {
+        url: '/:articleId/edit',
+        templateUrl: 'modules/articles/views/edit-article.client.view.html'
+      });
+  }
+]);
+
+'use strict';
+
+// Articles controller
+angular.module('articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Articles',
+  function ($scope, $stateParams, $location, Authentication, Articles) {
+    $scope.authentication = Authentication;
+
+    // Create new Article
+    $scope.create = function () {
+      // Create new Article object
+      var article = new Articles({
+        title: this.title,
+        content: this.content
+      });
+
+      // Redirect after save
+      article.$save(function (response) {
+        $location.path('articles/' + response._id);
+
+        // Clear form fields
+        $scope.title = '';
+        $scope.content = '';
+      }, function (errorResponse) {
+        $scope.error = errorResponse.data.message;
+      });
+    };
+
+    // Remove existing Article
+    $scope.remove = function (article) {
+      if (article) {
+        article.$remove();
+
+        for (var i in $scope.articles) {
+          if ($scope.articles[i] === article) {
+            $scope.articles.splice(i, 1);
+          }
+        }
+      } else {
+        $scope.article.$remove(function () {
+          $location.path('articles');
+        });
+      }
+    };
+
+    // Update existing Article
+    $scope.update = function () {
+      var article = $scope.article;
+
+      article.$update(function () {
+        $location.path('articles/' + article._id);
+      }, function (errorResponse) {
+        $scope.error = errorResponse.data.message;
+      });
+    };
+
+    // Find a list of Articles
+    $scope.find = function () {
+      $scope.articles = Articles.query();
+    };
+
+    // Find existing Article
+    $scope.findOne = function () {
+      $scope.article = Articles.get({
+        articleId: $stateParams.articleId
+      });
+    };
+  }
+]);
+
+'use strict';
+
+//Articles service used for communicating with the articles REST endpoints
+angular.module('articles').factory('Articles', ['$resource',
+  function ($resource) {
+    return $resource('api/articles/:articleId', {
+      articleId: '@_id'
+    }, {
+      update: {
+        method: 'PUT'
+      }
+    });
+  }
+]);
 
 'use strict';
 
@@ -509,6 +658,10 @@ angular.module('users').config(['$stateProvider',
         url: '/picture',
         templateUrl: 'modules/users/views/settings/change-profile-picture.client.view.html'
       })
+      .state('settings.delete', {
+        url: '/delete',
+        templateUrl: 'modules/users/views/settings/delete-account.client.view.html'
+      })
       .state('authentication', {
         abstract: true,
         url: '/authentication',
@@ -594,7 +747,6 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
       if (confirm('Are you sure you want to delete this user?')) {
         if (user) {
           user.$remove();
-
           $scope.users.splice($scope.users.indexOf(user), 1);
         } else {
           $scope.user.$remove(function () {
@@ -654,6 +806,23 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
       }).error(function (response) {
         $scope.error = response.message;
       });
+    };
+
+    $scope.forgotUsername = function() {
+      $scope.success = $scope.error = null;
+
+      $http.post('/api/auth/forgotUsername', $scope.credentials)
+        .sucess(function (response) {
+        // If successful prompt user
+        //$scope.success = 'Username has been sent'
+
+      })
+        .error(function(response) {
+        $scope.error = response.message;
+      });
+
+      //$scope.error = response.message;
+
     };
 
     // OAuth provider request
@@ -808,6 +977,47 @@ angular.module('users').controller('ChangeProfilePictureController', ['$scope', 
       $scope.uploader.clearQueue();
       $scope.imageURL = $scope.user.profileImageURL;
     };
+  }
+]);
+
+'use strict';
+
+angular.module('users').controller('DeleteAccountController', ['$scope', '$state', '$http', '$location', 'userResolve', 'Users', 'Authentication',
+  function ($scope, $state, $http, $location, Users, Authentication, userResolve) {
+    //$scope.user = Authentication.user;
+    //$scope.authentication = Authentication;
+    //$scope.user = userResolve;
+
+    $scope.remove = function (user) {
+      if (confirm('Are you sure you want to delete your account?')) {
+        if (user) {
+          user.$remove();
+          $state.go('authentication.signup');
+        } else {
+          $scope.user.$remove(function () {
+            $state.go('authentication.signup');
+          });
+        }
+      }
+    };
+
+
+    //= Update a user profile
+    /*$scope.updateUserProfile = function (isValid) {
+      if (isValid) {
+        $scope.success = $scope.error = null;
+        var user = new Users($scope.user);
+
+        user.$update(function (response) {
+          $scope.success = true;
+          Authentication.user = response;
+        }, function (response) {
+          $scope.error = response.data.message;
+        });
+      } else {
+        $scope.submitted = true;
+      }
+    };*/
   }
 ]);
 
