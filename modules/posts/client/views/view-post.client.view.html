@@ -32,7 +32,7 @@
     <button type="submit" class="btn btn-primary">Post</button>
   </form>
 
-  <!-- DISPLAY COMMENTS --><!-- trying to fix git -->
+  <!-- DISPLAY COMMENTS --><!-- trying to fix git still -->
   <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
     <span class="glyphicon glyphicon-thumbs-up" ng-click="upvote(post)"></span>
     {{comment.upvotes}} - by {{comment.author}}
