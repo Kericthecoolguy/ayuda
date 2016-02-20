@@ -6,17 +6,17 @@
 var should = require('should'),
   mongoose = require('mongoose'),
   User = mongoose.model('User'),
-  Post = mongoose.model('Post');
+  Article = mongoose.model('Article');
 
 /**
  * Globals
  */
-var user, post;
+var user, article;
 
 /**
  * Unit tests
  */
-describe('Post Model Unit Tests:', function () {
+describe('Article Model Unit Tests:', function () {
   beforeEach(function (done) {
     user = new User({
       firstName: 'Full',
@@ -28,9 +28,9 @@ describe('Post Model Unit Tests:', function () {
     });
 
     user.save(function () {
-      post = new Post({
-        title: 'Post Title',
-        content: 'Post Content',
+      article = new Article({
+        title: 'Article Title',
+        content: 'Article Content',
         user: user
       });
 
@@ -40,16 +40,16 @@ describe('Post Model Unit Tests:', function () {
 
   describe('Method Save', function () {
     it('should be able to save without problems', function (done) {
-      return post.save(function (err) {
+      return article.save(function (err) {
         should.not.exist(err);
         done();
       });
     });
 
     it('should be able to show an error when try to save without title', function (done) {
-      post.title = '';
+      article.title = '';
 
-      return post.save(function (err) {
+      return article.save(function (err) {
         should.exist(err);
         done();
       });
@@ -57,7 +57,7 @@ describe('Post Model Unit Tests:', function () {
   });
 
   afterEach(function (done) {
-    Post.remove().exec(function () {
+    Article.remove().exec(function () {
       User.remove().exec(done);
     });
   });

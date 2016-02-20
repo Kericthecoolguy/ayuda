@@ -9,47 +9,47 @@ var acl = require('acl');
 acl = new acl(new acl.memoryBackend());
 
 /**
- * Invoke Posts Permissions
+ * Invoke Articles Permissions
  */
 exports.invokeRolesPolicies = function () {
   acl.allow([{
     roles: ['admin'],
     allows: [{
-      resources: '/api/posts',
+      resources: '/api/articles',
       permissions: '*'
     }, {
-      resources: '/api/posts/:articleId',
+      resources: '/api/articles/:articleId',
       permissions: '*'
     }]
   }, {
     roles: ['user'],
     allows: [{
-      resources: '/api/posts',
+      resources: '/api/articles',
       permissions: ['get', 'post']
     }, {
-      resources: '/api/posts/:articleId',
+      resources: '/api/articles/:articleId',
       permissions: ['get']
     }]
   }, {
     roles: ['guest'],
     allows: [{
-      resources: '/api/posts',
+      resources: '/api/articles',
       permissions: ['get']
     }, {
-      resources: '/api/posts/:articleId',
+      resources: '/api/articles/:articleId',
       permissions: ['get']
     }]
   }]);
 };
 
 /**
- * Check If Posts Policy Allows
+ * Check If Articles Policy Allows
  */
 exports.isAllowed = function (req, res, next) {
   var roles = (req.user) ? req.user.roles : ['guest'];
 
-  // If an post is being processed and the current user created it then allow any manipulation
-  if (req.post && req.user && req.post.user.id === req.user.id) {
+  // If an article is being processed and the current user created it then allow any manipulation
+  if (req.article && req.user && req.article.user.id === req.user.id) {
     return next();
   }
 
