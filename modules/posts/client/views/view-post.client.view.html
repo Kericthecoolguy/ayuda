@@ -1,6 +1,8 @@
 <section data-ng-controller="ArticlesController" data-ng-init="findOne()">
   <div class="page-header">
     <h1 data-ng-bind="post.title"></h1>
+    Upvotes: <span data-ng-bind="post.upvotes"></span>
+    <span class="glyphicon glyphicon-thumbs-up" ng-click="upvote(post)"></span>
   </div>
   <div class="pull-right" data-ng-show="authentication.user._id == post.user._id">
     <a class="btn btn-primary" data-ui-sref="posts.edit({articleId: post._id})">
@@ -19,4 +21,23 @@
     </em>
   </small>
   <p class="lead" data-ng-bind="post.content"></p>
+
+  <!-- ADD COMMENT -->
+  <form ng-submit="addComment()" style="margin-top:30px;">
+    <h3>Add a new comment</h3>
+
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Comment" ng-model="body"></input>
+    </div>
+    <button type="submit" class="btn btn-primary">Post</button>
+  </form>
+
+  <!-- DISPLAY COMMENTS -->
+  <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
+    <span class="glyphicon glyphicon-thumbs-up" ng-click="upvote(post)"></span>
+    {{comment.upvotes}} - by {{comment.author}}
+    <span style="font-size:20px; margin-left:10px;">
+      {{comment.body}}
+    </span>
+  </div>
 </section>

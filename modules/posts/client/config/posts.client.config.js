@@ -18,7 +18,7 @@ angular.module('posts').run(['Menus',
 
     // Add the dropdown create item
     Menus.addSubMenuItem('topbar', 'posts', {
-      title: 'Create Posts',
+      title: 'Create Post',
       state: 'posts.create'
     });
   }

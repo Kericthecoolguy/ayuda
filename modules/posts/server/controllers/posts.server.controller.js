@@ -26,6 +26,36 @@ exports.create = function (req, res) {
   });
 };
 
+/** 
+  * Upvote a post
+  */
+exports.upvote = function(req, res, next) {
+  req.post.upvote(function(err, post) {
+    if (err) {return next(err); }
+
+    res.json(post);
+  });
+};
+
+/** 
+  * Add a comment
+  */
+exports.addComment = function(req, res, next) {
+  var comment = new Comment(req.body);
+  comment.post = req.post;
+
+  comment.save(function(err, comment) {
+    if (err) { return next(err); }
+
+    req.post.comments.push(comment);
+    req.post.save(function(err, post) {
+      if(err) { return next(err); }
+
+      res.json(comment);
+    });
+  });
+};
+
 /**
  * Show the current post
  */
