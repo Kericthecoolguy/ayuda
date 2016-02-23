@@ -26,6 +26,42 @@ exports.create = function (req, res) {
   });
 };
 
+/** 
+  * Upvote
+  */
+exports.upvote = function(req, res) {
+  var article = req.article;
+
+  article.upvote(function (err) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.json(article);
+    }
+  });
+};
+
+/**
+  * Add a comment
+  */
+exports.addComment = function(req, res, next) {
+  var comment = new Comment(req.body);
+  comment.post = req.post;
+
+  comment.save(function(err, comment) {
+    if (err) { return next(err); }
+
+    req.post.comments.push(comment);
+    req.post.save(function(err, post) {
+      if(err) { return next(err); }
+
+      res.json(comment);
+    });
+  });
+};
+
 /**
  * Show the current article
  */

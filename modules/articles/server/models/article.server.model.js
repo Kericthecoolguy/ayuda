@@ -28,7 +28,42 @@ var ArticleSchema = new Schema({
   user: {
     type: Schema.ObjectId,
     ref: 'User'
+  },
+  upvotes: {
+    type: Number,
+    default: 0
+  },
+  comments: [{
+    type: mongoose.Schema.Types.ObjectId, ref: 'Comment'
+  }]
+});
+
+ArticleSchema.methods.upvote = function(cb) {
+  this.upvotes += 1;
+  this.save(cb);
+};
+
+/** 
+  * Comment Schema
+  */
+
+var CommentSchema = new Schema({
+  body: {
+    String
+  },
+  author: {
+    type: Schema.ObjectId,
+    ref: 'User'
+  },
+  upvotes: {
+    type: Number,
+    default: 0
+  },
+  article: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Article'
   }
 });
 
 mongoose.model('Article', ArticleSchema);
+mongoose.model('Comment', CommentSchema);

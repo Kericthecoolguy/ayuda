@@ -5,6 +5,7 @@
  */
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema,
+  friends = require('mongoose-friends'),
   crypto = require('crypto'),
   validator = require('validator');
 
@@ -108,6 +109,11 @@ var UserSchema = new Schema({
     type: Date
   }
 });
+
+/**
+  * Friends plugin
+  */
+UserSchema.plugin(friends());
 
 /**
  * Hook a pre save method to hash the password

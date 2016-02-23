@@ -53,6 +53,22 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
       });
     };
 
+    $scope.upvote = function(article) {
+      article.upvotes += 1;
+      //article.upvote();
+      //article.$upvote();
+    };
+
+    $scope.addComment = function() {
+      if($scope.body === '') { return; }
+      $scope.article.comments.push({
+        body:$scope.body,
+        author: 'user',
+        upvotes: 0
+      });
+      $scope.body = '';
+    };
+
     // Find a list of Articles
     $scope.find = function () {
       $scope.articles = Articles.query();

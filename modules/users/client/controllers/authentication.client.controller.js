@@ -42,12 +42,12 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
       $http.post('/api/auth/forgotUsername', $scope.credentials)
         .sucess(function (response) {
         // If successful prompt user
-        //$scope.success = 'Username has been sent'
+          $scope.success = 'Username has been sent';
 
-      })
-        .error(function(response) {
-        $scope.error = response.message;
-      });
+        })
+        .error(function (response) {
+          $scope.error = response.message;
+        });
 
       //$scope.error = response.message;
 

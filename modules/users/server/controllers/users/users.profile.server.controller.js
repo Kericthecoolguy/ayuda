@@ -53,16 +53,23 @@ exports.update = function (req, res) {
  * Delete a user
  */
 exports.delete = function (req, res) {
-  var user = req.model;
+  var user = req.user;
 
   user.remove(function (err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
+    } else {
+      //res.redirect('/api/auth/signout');
+      //req.session.destroy();
+      req.session.destroy();
+      req.logout();
+      res.send('logged out', 401);
+     
     }
 
-    res.json(user);
+    //res.json(user);
   });
 };
 

@@ -18,6 +18,15 @@ module.exports = function (app) {
     .put(articles.update)
     .delete(articles.delete);
 
+  // Upvote route
+  app.route('/api/articles/upvote')
+    .put(articles.upvote);
+
+  // Comment route
+  app.route('/api/articles/comment')
+    .post(articles.addComment);
+  
+
   // Finish by binding the article middleware
   app.param('articleId', articles.articleByID);
 };
