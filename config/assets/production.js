@@ -18,6 +18,12 @@ module.exports = {
       ]
     },
     css: 'public/dist/application.min.css',
-    js: 'public/dist/application.js'
+    //js: 'public/dist/application.js'
+    js: [
+      'modules/core/client/app/config.js',
+      'modules/core/client/app/init.js',
+      'modules/*/client/*.js',
+      'modules/*/client/**/*.js'
+    ],
   }
 };
