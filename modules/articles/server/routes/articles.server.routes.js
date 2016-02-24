@@ -19,13 +19,12 @@ module.exports = function (app) {
     .delete(articles.delete);
 
   // Upvote route
-  app.route('/api/articles/upvote')
+  app.route('/api/articles/:articleId/upvote')
     .put(articles.upvote);
 
-  // Comment route
-  app.route('/api/articles/comment')
+  // comment route
+  app.route('/api/articles/:articleId/comments')
     .post(articles.addComment);
-  
 
   // Finish by binding the article middleware
   app.param('articleId', articles.articleByID);

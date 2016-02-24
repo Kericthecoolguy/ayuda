@@ -31,11 +31,11 @@ var ArticleSchema = new Schema({
   },
   upvotes: {
     type: Number,
-    default: 0
+    default: 0 
   },
   comments: [{
-    type: mongoose.Schema.Types.ObjectId, ref: 'Comment'
-  }]
+      type: mongoose.Schema.Types.ObjectId, ref: 'Comment'
+    }]
 });
 
 ArticleSchema.methods.upvote = function(cb) {
@@ -43,7 +43,7 @@ ArticleSchema.methods.upvote = function(cb) {
   this.save(cb);
 };
 
-/** 
+/**
   * Comment Schema
   */
 
@@ -52,18 +52,18 @@ var CommentSchema = new Schema({
     String
   },
   author: {
-    type: Schema.ObjectId,
-    ref: 'User'
+    String
   },
   upvotes: {
-    type: Number,
+    type: Number, 
     default: 0
   },
-  article: {
-    type: mongoose.Schema.Types.ObjectId,
+  article: { 
+    type: mongoose.Schema.Types.ObjectId, 
     ref: 'Article'
   }
 });
 
-mongoose.model('Article', ArticleSchema);
 mongoose.model('Comment', CommentSchema);
+mongoose.model('Article', ArticleSchema);
+

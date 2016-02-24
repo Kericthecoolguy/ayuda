@@ -55,7 +55,7 @@ describe('Article CRUD tests', function () {
   });
 
   it('should be able to save an article if logged in', function (done) {
-    agent.post('/api/auth/signin')
+    agent.article('/api/auth/signin')
       .send(credentials)
       .expect(200)
       .end(function (signinErr, signinRes) {
@@ -68,7 +68,7 @@ describe('Article CRUD tests', function () {
         var userId = user.id;
 
         // Save a new article
-        agent.post('/api/articles')
+        agent.article('/api/articles')
           .send(article)
           .expect(200)
           .end(function (articleSaveErr, articleSaveRes) {
@@ -100,7 +100,7 @@ describe('Article CRUD tests', function () {
   });
 
   it('should not be able to save an article if not logged in', function (done) {
-    agent.post('/api/articles')
+    agent.article('/api/articles')
       .send(article)
       .expect(403)
       .end(function (articleSaveErr, articleSaveRes) {
@@ -113,7 +113,7 @@ describe('Article CRUD tests', function () {
     // Invalidate title field
     article.title = '';
 
-    agent.post('/api/auth/signin')
+    agent.article('/api/auth/signin')
       .send(credentials)
       .expect(200)
       .end(function (signinErr, signinRes) {
@@ -126,7 +126,7 @@ describe('Article CRUD tests', function () {
         var userId = user.id;
 
         // Save a new article
-        agent.post('/api/articles')
+        agent.article('/api/articles')
           .send(article)
           .expect(400)
           .end(function (articleSaveErr, articleSaveRes) {
@@ -140,7 +140,7 @@ describe('Article CRUD tests', function () {
   });
 
   it('should be able to update an article if signed in', function (done) {
-    agent.post('/api/auth/signin')
+    agent.article('/api/auth/signin')
       .send(credentials)
       .expect(200)
       .end(function (signinErr, signinRes) {
@@ -153,7 +153,7 @@ describe('Article CRUD tests', function () {
         var userId = user.id;
 
         // Save a new article
-        agent.post('/api/articles')
+        agent.article('/api/articles')
           .send(article)
           .expect(200)
           .end(function (articleSaveErr, articleSaveRes) {
@@ -247,7 +247,7 @@ describe('Article CRUD tests', function () {
   });
 
   it('should be able to delete an article if signed in', function (done) {
-    agent.post('/api/auth/signin')
+    agent.article('/api/auth/signin')
       .send(credentials)
       .expect(200)
       .end(function (signinErr, signinRes) {
@@ -260,7 +260,7 @@ describe('Article CRUD tests', function () {
         var userId = user.id;
 
         // Save a new article
-        agent.post('/api/articles')
+        agent.article('/api/articles')
           .send(article)
           .expect(200)
           .end(function (articleSaveErr, articleSaveRes) {

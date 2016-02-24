@@ -27,34 +27,28 @@ exports.create = function (req, res) {
 };
 
 /** 
-  * Upvote
+  * Upvote a article
   */
-exports.upvote = function(req, res) {
-  var article = req.article;
+exports.upvote = function(req, res, next) {
+  req.article.upvote(function(err, article) {
+    if (err) {return next(err); }
 
-  article.upvote(function (err) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      res.json(article);
-    }
+    res.json(article);
   });
 };
 
-/**
+/** 
   * Add a comment
   */
 exports.addComment = function(req, res, next) {
   var comment = new Comment(req.body);
-  comment.post = req.post;
+  comment.article = req.article;
 
   comment.save(function(err, comment) {
     if (err) { return next(err); }
 
-    req.post.comments.push(comment);
-    req.post.save(function(err, post) {
+    req.article.comments.push(comment);
+    req.article.save(function(err, article) {
       if(err) { return next(err); }
 
       res.json(comment);

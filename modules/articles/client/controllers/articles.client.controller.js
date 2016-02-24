@@ -53,17 +53,16 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
       });
     };
 
+    // Upvote
     $scope.upvote = function(article) {
       article.upvotes += 1;
-      //article.upvote();
-      //article.$upvote();
     };
 
     $scope.addComment = function() {
       if($scope.body === '') { return; }
       $scope.article.comments.push({
-        body:$scope.body,
-        author: 'user',
+        body: $scope.body,
+        author: 'user', 
         upvotes: 0
       });
       $scope.body = '';

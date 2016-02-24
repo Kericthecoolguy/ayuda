@@ -5,7 +5,6 @@
  */
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema,
-  friends = require('mongoose-friends'),
   crypto = require('crypto'),
   validator = require('validator');
 
@@ -73,7 +72,14 @@ var UserSchema = new Schema({
     type: Boolean,
     default: false
   },
-  interests: [{ type: String, trim: true}],
+  relationships: [{
+    type: Schema.ObjectId,
+    ref: 'Relationship'
+  }],
+  interests: [{ 
+    type: String, 
+    trim: true
+  }],
   salt: {
     type: String
   },
@@ -110,10 +116,19 @@ var UserSchema = new Schema({
   }
 });
 
-/**
-  * Friends plugin
-  */
-UserSchema.plugin(friends());
+var RelationshipSchema = new Schema({
+  mentor: {
+    type: Schema.ObjectId,
+    ref: 'User'
+  },
+  mentee: {
+    type: Schema.ObjectId,
+    ref: 'User'
+  },
+  status: {
+    type: String
+  }
+});
 
 /**
  * Hook a pre save method to hash the password
@@ -168,3 +183,4 @@ UserSchema.statics.findUniqueUsername = function (username, suffix, callback) {
 };
 
 mongoose.model('User', UserSchema);
+mongoose.model('Relationship', RelationshipSchema);
