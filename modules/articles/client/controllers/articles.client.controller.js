@@ -4,6 +4,8 @@
 angular.module('articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Articles',
   function ($scope, $stateParams, $location, Authentication, Articles) {
     $scope.authentication = Authentication;
+    $scope.user = Authentication.user;
+
 
     // Create new Article
     $scope.create = function () {
@@ -65,13 +67,21 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
       });
     };
 
+    $scope.upvoteComment = function(comment) {
+      comment.upvotes += 1;
+
+      /*comment.$updateComment(comment, function (errorResponse) {
+        $scope.error = errorResponse.data.message;
+      });*/
+    };
+
     $scope.addComment = function(article) {
       if($scope.body === '') { return; }
       //var article = $scope.article;
 
       article.comments.push({
         body: $scope.body,
-        author: 'user', 
+        author: $scope.user.username, 
         upvotes: 0
       });
        

@@ -36,7 +36,7 @@
   <!-- DISPLAY COMMENTS -->
   <div ng-repeat="comment in article.comments | orderBy:'-upvotes'">
     {{comment.upvotes}}
-    <span class="glyphicon glyphicon-thumbs-up" ng-click="upvote(article)"></span> / 
+    <span class="glyphicon glyphicon-thumbs-up" ng-click="upvoteComment(comment)"></span> / 
     <span class="glyphicon glyphicon-flag" ng-click=""></span>
      - by {{comment.author}}
     <br>

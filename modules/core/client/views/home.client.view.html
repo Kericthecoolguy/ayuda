@@ -21,7 +21,7 @@
     </div>
   </div>
   <!-- DISPLAY IF LOGGED IN -->
-  <div ng-if="authentication.user">
+  <!--<div ng-if="authentication.user">
     <h2>Welcome to Ayuda</h2>
     <p>Ayuda is a peer mentorship and student success platform that supports the positive growth and development of students.</p>
     <p>Collaboration boards, peer mentor relationships and proven growth tracking and personal development strategies promote
@@ -30,7 +30,32 @@
   <br>Enjoy,
   <br>The Ayuda Team.
 
+  </div>-->
+  <div ng-if="authentication.user">
+    <div class="page-header">
+      <div class="row">
+        <div class="col-md-4">
+          <h1>Welcome to Ayuda!</h1>
+        </div>
+        <div class="col-md-4" style="margin-top: 2em">
+          <!--<input class="form-control col-md-4" type="text" data-ng-model="search" placeholder="Search" ng-change="figureOutItemsToDisplay()" />-->
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Relationships</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <h3 ng-if="authentication.user.relationships">No relationships to display</h3>
+        </div>
+      </div>
+    </div>
   </div>
-  
   
 </section>
