@@ -53,19 +53,43 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
       });
     };
 
-    // Upvote
+    // Upvote article
     $scope.upvote = function(article) {
+      //var article = $scope.article;
       article.upvotes += 1;
+
+      article.$update(function () {
+        $location.path('articles/' + article._id);
+      }, function (errorResponse) {
+        $scope.error = errorResponse.data.message;
+      });
     };
 
-    $scope.addComment = function() {
+    $scope.addComment = function(article) {
       if($scope.body === '') { return; }
-      $scope.article.comments.push({
+      //var article = $scope.article;
+
+      article.comments.push({
         body: $scope.body,
         author: 'user', 
         upvotes: 0
       });
+       
+
+      /*$scope.article.comments.push({
+        body: $scope.body,
+        author: 'user', 
+        upvotes: 0
+      });
+      */  
       $scope.body = '';
+
+      article.$update(function () {
+        $location.path('articles/' + article._id);
+      }, function (errorResponse) {
+        $scope.error = errorResponse.data.message;
+      });
+      
     };
 
     // Find a list of Articles

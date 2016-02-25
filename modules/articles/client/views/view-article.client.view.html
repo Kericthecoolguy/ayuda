@@ -2,7 +2,8 @@
   <div class="page-header">
     <h1 data-ng-bind="article.title"></h1>
     Upvotes: <span data-ng-bind="article.upvotes"></span>
-    <span class="glyphicon glyphicon-thumbs-up" ng-click="upvote(article)"></span>
+    <span class="glyphicon glyphicon-thumbs-up" ng-click="upvote(article)"></span> / 
+    <span class="glyphicon glyphicon-flag" ng-click=""></span>
   </div>
   <div class="pull-right" data-ng-show="authentication.user._id == article.user._id">
     <a class="btn btn-primary" data-ui-sref="articles.edit({articleId: article._id})">
@@ -23,8 +24,8 @@
   <p class="lead" data-ng-bind="article.content"></p>
 
   <!-- ADD COMMENT -->
-  <form ng-submit="addComment()" style="margin-top:30px;">
-    <h3>Add a new comment</h3>
+  <form ng-submit="addComment(article)" style="margin-top:30px;">
+    <h4>Add a new comment</h4>
 
     <div class="form-group">
       <input type="text" class="form-control" placeholder="Comment" ng-model="body"></input>
@@ -32,10 +33,13 @@
     <button type="submit" class="btn btn-primary">Post</button>
   </form>
 
-  <!-- DISPLAY COMMENTS --><!-- trying to fix git still -->
+  <!-- DISPLAY COMMENTS -->
   <div ng-repeat="comment in article.comments | orderBy:'-upvotes'">
-    <span class="glyphicon glyphicon-thumbs-up" ng-click="upvote(article)"></span>
-    {{comment.upvotes}} - by {{comment.author}}
+    {{comment.upvotes}}
+    <span class="glyphicon glyphicon-thumbs-up" ng-click="upvote(article)"></span> / 
+    <span class="glyphicon glyphicon-flag" ng-click=""></span>
+     - by {{comment.author}}
+    <br>
     <span style="font-size:20px; margin-left:10px;">
       {{comment.body}}
     </span>

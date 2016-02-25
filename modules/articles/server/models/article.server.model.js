@@ -33,9 +33,13 @@ var ArticleSchema = new Schema({
     type: Number,
     default: 0 
   },
-  comments: [{
-      type: mongoose.Schema.Types.ObjectId, ref: 'Comment'
-    }]
+  comments: ['Comment']
+  /*comments: [{
+      //type: mongoose.Schema.Types.ObjectId,
+      //type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Comment'
+    }]*/
 });
 
 ArticleSchema.methods.upvote = function(cb) {
@@ -59,7 +63,8 @@ var CommentSchema = new Schema({
     default: 0
   },
   article: { 
-    type: mongoose.Schema.Types.ObjectId, 
+    //type: mongoose.Schema.Types.ObjectId,
+    type: Schema.ObjectId,
     ref: 'Article'
   }
 });

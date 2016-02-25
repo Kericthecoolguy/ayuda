@@ -71,9 +71,12 @@ exports.update = function (req, res) {
 
   article.title = req.body.title;
   article.content = req.body.content;
+  article.upvotes = req.body.upvotes;
+  article.comments = req.body.comments;
 
   article.save(function (err) {
     if (err) {
+      console.log(errorHandler.getErrorMessage(err));
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
