@@ -7,10 +7,15 @@ module.exports = function (app) {
   // Setting up the users profile api
   app.route('/api/users/me').get(users.me);
   app.route('/api/users').put(users.update);
+
+  app.route('/api/users').get(users.list);
+  
   app.route('/api/users/accounts').delete(users.removeOAuthProvider);
   app.route('/api/users/password').post(users.changePassword);
   app.route('/api/users/picture').post(users.changeProfilePicture);
   app.route('/api/users/deleteAccount').post(users.delete);
+
+  app.route('/api/users/:userId').get(users.read);
 
   // Relationship Routes
 

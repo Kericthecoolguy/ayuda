@@ -16,6 +16,18 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       .state('not-found', {
         url: '/not-found',
         templateUrl: 'modules/core/views/404.client.view.html'
+      })
+      .state('user', {
+        url: '/users/:userId',
+        templateUrl: 'modules/users/views/user.client.view.html',
+        controller: 'UserHomeController',
+        resolve: {
+          userResolve: ['$stateParams', 'Users', function ($stateParams, Users) {
+            return Users.get({
+              userId: $stateParams.userId
+            });
+          }]
+        }
       });
   }
 ]);

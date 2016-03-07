@@ -38,7 +38,6 @@
           <h1>Welcome to Ayuda!</h1>
         </div>
         <div class="col-md-4" style="margin-top: 2em">
-          <!--<input class="form-control col-md-4" type="text" data-ng-model="search" placeholder="Search" ng-change="figureOutItemsToDisplay()" />-->
         </div>
       </div>
     </div>
@@ -48,13 +47,53 @@
         <div class="col-md-6">
           <h2>Relationships</h2>
         </div>
+        <div class="col-md-6">
+          <h2>Users</h2>
+        </div>
       </div>
 
       <div class="row">
         <div class="col-md-6">
-          <h3 ng-if="authentication.user.relationships">No relationships to display</h3>
+          <!--<h3 ng-if="authentication.user.relationships">No relationships to display</h3>-->
+          <h3>Requests:</h3>
+          <hr>
+        </div>
+        <div class="col-md-6">
+          <input class="form-control col-md-4" type="text" data-ng-model="search" placeholder="Search" ng-change="figureOutItemsToDisplay()" />
         </div>
       </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <strong>Keric Edwards (Mentor)</strong><br><br>
+          <strong>Angela Mutua (Mentee)</strong>
+        </div>
+
+        <div class="col-md-3">
+          <a class="btn btn-primary btn-xs">Cancel Request</a><br><br>
+          <a class="btn btn-primary btn-xs">Accept</a>
+          <a class="btn btn-primary btn-xs">Deny</a>
+        </div>
+
+        <!--<div class="col-md-3"><strong>Angela Mutua (Mentee)</strong></div>
+        <div class="col-md-3">
+          <a class="btn btn-primary">Accept</a>
+          <a class="btn btn-primary">Deny</a>
+        </div>-->
+
+
+        <div class="col-md-6">
+          <div class="list-group">
+            <!--<a data-ng-repeat="user in pagedItems" data-ui-sref="users.user({userId: user._id})" class="list-group-item">-->
+            <a data-ng-repeat="user in pagedItems" data-ui-sref="user({userId: user._id})" class="list-group-item">
+              <h4 class="list-group-item-heading" data-ng-bind="user.username"></h4>
+              <p class="list-group-item-text" data-ng-bind="user.email"></p>
+              Mentor: <span class="list-group-item-text" data-ng-bind="user.isMentor"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
   
